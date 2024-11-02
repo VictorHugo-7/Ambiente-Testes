@@ -1,0 +1,73 @@
+
+```
+Back-End
+	- O back-end é a parte de uma aplicação que roda no servidor, "por trás das cenas". Tecnologia que roda dentro de um servidor
+	- Ele é responsável pelo processamento dos dados, regras de negócios e pela lógica da aplicação.
+	- Esse código geralmente não é visível para o usuário final, pois é processado em um servidor antes de enviar os dados ou a resposta para o front-end (parte visível da aplicação).
+
+
+Servidor
+	- Um servidor é um computador (geralmente com alta capacidade de processamento) que roda e mantém as aplicações de back-end, garantindo que elas fiquem acessíveis para os usuários via internet.
+	- Ele lida com as requisições dos usuários e responde com os dados ou ações apropriadas.
+	- Em aplicações web, o servidor processa as requisições feitas pelo navegador, realiza operações necessárias e devolve uma resposta.
+
+
+Node.js
+	- É uma tecnologia que permite rodar código JavaScript no back-end. 
+	- Originalmente, o JavaScript era executado apenas no navegador (front-end), mas o Node.js expandiu esse uso para o servidor.
+	- Ele é um ambiente de execução (runtime) para JavaScript, o que significa que ele traduz e executa o código JavaScript diretamente no servidor.
+	- Com o Node.js, é possível desenvolver APIs, acessar banco de dados, manipular arquivos, entre outras tarefas típicas de desenvolvimento back-end.
+
+	- É uma tecologia que faz o servidor, computador entender javascript 
+	- Com isso eu consigo fazer códigos no servidor que roda javascript
+
+
+NPM 
+	Explicação
+		- (Node Package Manager)
+		- O NPM é um gerenciador de pacotes para o Node.js. 
+		- Ele facilita a instalação, atualização e remoção de bibliotecas e dependências para projetos JavaScript que usam Node.js.
+	
+	Comandos
+		npm init                           --> inicia um novo projeto em Node.js e cria o arquivo package.json, que armazena as configurações e dependências do projeto.
+		npm init -y                        --> cria o projeto automaticamente, sem pedir as configurações.
+		npm install <nome_da_biblioteca>   --> instala uma biblioteca. Por exemplo, npm install express instala o Express.
+		node index.js                      --> Roda o servidor diretamente. 
+	.										   Você pode substituir "index.js" pelo nome do arquivo, por exemplo: node {nome_do_arquivo}. 
+	.										   URL: http://localhost:3000/{nome_da_rota}
+		npm start                          --> Roda o servidor, se você tiver um script "start" definido no package.json, como "start": "node index.js".
+		nodemon index.js                   --> Nota: Para cada mudança no código, você precisa parar o servidor (CTRL+C) e rodá-lo novamente. 
+	.										   Dica: Instale `nodemon` com `npm install -g nodemon` para que o ervidor reinicie automaticamente ao detectar mudanças. 
+	.										   Use `nodemon index.js` em vez de `node index.js`.
+
+
+Arquivos
+	package.json        --> armazena as informações e configurações do projeto, incluindo versões e dependências.
+	package-lock.json   --> mantém a versão exata das bibliotecas instaladas para garantir a integridade do projeto.
+	node_modules        --> pasta onde ficam armazenadas as bibliotecas instaladas pelo NPM.
+```
+Código
+```js
+const express = require("express")                   // Importa a biblioteca Express
+const server = express()                             // Cria uma instância do servidor Express
+
+
+server.get('/abacate', (request, response) => {  
+    return response.send("Esse é seu abacate")       // Quando acessar /abacate, responde com o texto
+})
+
+
+server.get('/morango', (request, response) => {    
+    return response.send("Esse é seu morango")       // Quando acessar /morango, responde com o texto
+})
+
+
+server.get('/banana', (request, response) => {
+    console.log(request)                             // Exibe no console a requisição completa
+    console.log(request.query.usuario)               // Exibe no console o valor do parâmetro 'usuario'
+    return response.send(request.query.usuario)      // Responde com o valor de 'usuario' passado na URL
+})
+
+
+server.listen(3000)                                  // Inicia o servidor na porta 3000
+```
