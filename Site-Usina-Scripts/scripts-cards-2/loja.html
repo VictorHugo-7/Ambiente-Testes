@@ -1,0 +1,342 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
+<link rel="stylesheet" href="./loja.css">
+
+<!-- Link Ícones | https://cdnjs.com/libraries/font-awesome | https://fontawesome.com/ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+<a href="./loja.html">Loja</a>
+<br>
+<a href="./eventos.html">Eventos</a>
+<a href="./noticias.html">Notícias</a>
+<a href="./trabalhos.html">Trabalhos</a>
+<a href="./galeriaFotos.html">Galeria Fotos</a>
+<a href="./galeriaVideos.html">Galeria Vídeos</a>
+
+
+
+
+<div class="container my-5">
+
+    <!-- Divulgação - loja -->
+    <h5 class="my-loja-s1-loja mb-4">Loja</h5>
+
+    <!-- Botões -->
+    <div>
+        <button type="button" class="btn btn-success" onclick="addCard()"> Adicionar Card</button>
+        <button type="button" class="btn btn-secondary" onclick="openEditModal()">Editar Card</button>
+        <button type="button" class="btn btn-danger" onclick="openDeleteModal()">Excluir Card</button>
+
+
+    </div>
+
+
+    <!-- Card -->
+    <div class="row mt-3" id="cards-container">
+        <div class="col-12 col-md-6 col-lg-3 mb-4 card-wrapper">
+            <div class="card" style="height: 100%;">
+                <img src="https://cdn.pixabay.com/photo/2024/06/01/14/00/ai-8802304_1280.jpg"
+                    class="my-loja-s1-imagem card-image" alt="Imagem da loja">
+                <div class="card-body">
+                    <h5 class="card-title">Título</h5>
+                    <h6 class="card-subtitle mb-2 text-muted card-price">Preço</h6>
+                    <p class="card-text text-muted card-description">Descrição</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="my-loja-s1-index">1</span>
+                    <button class="my-loja-s1-btnComprar" onclick="openPixModal()">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Modal para Código PIX -->
+<div class="modal fade" id="pixModal" tabindex="-1" aria-labelledby="pixModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pixModalLabel">Pagamento via PIX</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <img src="URL_DA_IMAGEM_DO_CODIGO_PIX_AQUI" alt="Código PIX" class="img-fluid">
+                    <p class="mt-3">Escaneie o código PIX</p>
+                    <p><strong>Insira o valor correto para não haver problemas na compra.</strong></p>
+                </div>
+                <p class="text-center">Para garantir que seu pedido seja entregue corretamente, por favor, preencha os
+                    dados abaixo com suas informações pessoais. É importante que você anexe o comprovante de pagamento
+                    para que possamos processar seu pedido.</p>
+                <p class="text-center">Após o envio, vamos conferir os dados fornecidos e o produto será entregue na sua
+                    casa. Caso tenha alguma dúvida, sinta-se à vontade para nos enviar uma mensagem através do contato.
+                    Agradecemos pela sua compra!</p>
+
+                <form id="pixForm">
+                    <!-- Nome -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control form-control-sm" id="nome" name="nome" placeholder="Nome"
+                            required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control form-control-sm" id="email" name="email"
+                            placeholder="Email" required>
+                    </div>
+
+                    <!-- Localização -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                        <input type="text" class="form-control form-control-sm" id="localizacao" name="localizacao"
+                            placeholder="Localização" required>
+                    </div>
+
+                    <!-- Anexar Comprovante -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-file-upload"></i></span>
+                        <input type="file" class="form-control form-control-sm" id="comprovante" name="comprovante"
+                            accept=".jpg, .jpeg, .png, .pdf" required>
+                    </div>
+
+                    <!-- Checkbox Termos e Política -->
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="termsCheckboxLoja">
+                        <label class="form-check-label" for="termsCheckboxLoja"> Eu li e aceito os
+                            <a class="" href="" target="_blank">Termos de Uso</a> e a
+                            <a class="" href="" target="_blank">Política de Privacidade</a>
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="pixForm" class="my-loja-s1-btnEnviarComprovante" disabled>Enviar
+                    Comprovante</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para exclusão -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Excluir Card</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="number" id="deleteIndex" class="form-control" placeholder="Índice do Card para excluir">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="deleteCard()">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para edição -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Editar loja</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form id="editForm">
+                    <!-- Índice -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
+                        <input type="number" class="form-control form-control-sm" id="editIndex"
+                            placeholder="Índice Card">
+                    </div>
+
+                    <!-- URL da Imagem -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-image"></i></span>
+                        <input type="text" class="form-control form-control-sm" id="editImage"
+                            placeholder="URL da Imagem">
+                    </div>
+
+                    <!-- Título -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                        <input type="text" class="form-control form-control-sm" id="editTitle" placeholder="Título">
+                    </div>
+
+                    <!-- Preço -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                        <input type="number" class="form-control form-control-sm" id="editPrice" placeholder="Preço">
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fas fa-align-left"></i></span>
+                        <textarea class="form-control form-control-sm" id="editDescription"
+                            placeholder="Descrição"></textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="my-loja-s1-btnSalvarAlterações" id="saveChangesBtn">Salvar
+                    alterações</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+
+
+
+<script>
+    // Função para abrir o modal do PIX
+    function openPixModal() {
+        const pixModal = new bootstrap.Modal(document.getElementById('pixModal'));
+        pixModal.show();
+    }
+
+
+    let cardCount = 1; // Variável para contar o número total de cards
+
+    // Função para adicionar um novo card
+    function addCard() {
+        const cardContainer = document.getElementById('cards-container');
+        const newCard = document.createElement('div');
+        newCard.classList.add('col-12', 'col-md-6', 'col-lg-3', 'mb-4', 'card-wrapper');
+
+        // Card HTML com o índice correto atualizado
+        newCard.innerHTML = `
+            <div class="card" style="height: 100%;">
+                <img src="https://cdn.pixabay.com/photo/2024/06/01/14/00/ai-8802304_1280.jpg"
+                    class="my-loja-s1-imagem card-image" alt="Imagem da loja">
+                <div class="card-body">
+                    <h5 class="card-title">Título</h5>
+                    <h6 class="card-subtitle mb-2 text-muted card-price">Preço</h6>
+                    <p class="card-text text-muted card-description">Descrição</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <span class="my-loja-s1-index">1</span>
+                    <button class="my-loja-s1-btnComprar" onclick="openPixModal()">Comprar</button>
+                </div>
+            </div>
+            `;
+        cardContainer.appendChild(newCard);
+        cardCount++; // Incrementa o contador de cards
+        updateCardIndices(); // Atualiza todos os índices após a adição
+    }
+
+
+    // Função para atualizar os índices visíveis nos cards
+    function updateCardIndices() {
+        const cards = document.querySelectorAll('.card-wrapper'); // Seleciona todos os cards
+        cards.forEach((card, index) => {
+            card.querySelector('.my-loja-s1-index').textContent = index + 1;
+        });
+    }
+
+
+    // Função para abrir o modal de exclusão
+    function openDeleteModal() {
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
+    }
+
+
+    // Função para excluir um card específico pelo índice
+    function deleteCard() {
+        const indexToDelete = parseInt(document.getElementById('deleteIndex').value, 10) - 1; // Converte o índice 1-based para 0-based
+        const cards = document.querySelectorAll('.card-wrapper');
+
+        if (indexToDelete >= 0 && indexToDelete < cards.length) {
+            // Remove o card selecionado
+            cards[indexToDelete].remove();
+
+            // Decrementa o contador de cards para manter a contagem correta
+            cardCount--;
+
+            // Atualiza os índices visíveis dos cards
+            updateCardIndices();
+
+            // Fecha o modal de exclusão
+            const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+            deleteModal.hide();
+        } else {
+            alert('Índice inválido. Por favor, escolha um índice de card válido.');
+        }
+    }
+
+
+    // Função para abrir o modal de edição
+    function openEditModal() {
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        editModal.show();
+    }
+
+
+    document.getElementById('saveChangesBtn').addEventListener('click', function () {
+        const index = document.getElementById('editIndex').value - 1; // Índice baseado em 1
+        const cards = document.querySelectorAll('.card');
+
+        if (index >= 0 && index < cards.length) {
+            const selectedCard = cards[index];
+
+            // Atualiza a imagem, título, preço e descrição do card
+            const imageUrl = document.getElementById('editImage').value;
+            if (imageUrl) {
+                selectedCard.querySelector('.card-image').src = imageUrl;
+            }
+            selectedCard.querySelector('.card-title').innerText = document.getElementById('editTitle').value;
+            selectedCard.querySelector('.card-price').innerText = "R$ " + document.getElementById('editPrice').value;
+            selectedCard.querySelector('.card-description').innerText = document.getElementById('editDescription').value;
+
+            // Fecha o modal
+            const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+            editModal.hide();
+        } else {
+            alert('Índice inválido. Por favor, escolha um índice de card válido.');
+        }
+    });
+
+
+    const termsCheckboxLoja = document.querySelector('#termsCheckboxLoja');
+    const enviarComprovanteButton = document.querySelector('.my-loja-s1-btnEnviarComprovante');
+
+    // Inicializa o botão como desabilitado
+    enviarComprovanteButton.disabled = true;
+
+    termsCheckboxLoja.addEventListener('change', function () {
+        if (this.checked) {
+            enviarComprovanteButton.disabled = false; // Habilita o botão
+            enviarComprovanteButton.classList.remove('disabled'); // Remove a classe disabled
+            enviarComprovanteButton.classList.add('enabled'); // Adiciona a classe enabled
+        } else {
+            enviarComprovanteButton.disabled = true; // Desabilita o botão
+            enviarComprovanteButton.classList.add('disabled'); // Adiciona a classe disabled
+            enviarComprovanteButton.classList.remove('enabled'); // Remove a classe enabled
+        }
+    });
+</script>
+
