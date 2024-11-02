@@ -1,0 +1,89 @@
+function openEditModalEventoPróximos() {
+    const editModalEventoPróximos = new bootstrap.Modal(document.getElementById('editModalEventosProximos'));
+    editModalEventoPróximos.show();
+}
+
+function saveToLocalStorage(cardsData) {
+    localStorage.setItem('eventosProximos', JSON.stringify(cardsData));
+}
+
+function loadFromLocalStorage() {
+    const savedData = JSON.parse(localStorage.getItem('eventosProximos'));
+    if (savedData) {
+        const cards = document.querySelectorAll('.my-index-s3-cardAlteracao');
+        savedData.forEach((cardData, index) => {
+            if (index < cards.length) {
+                const card = cards[index];
+                card.querySelector('.my-index-s3-imagem').src = cardData.imageUrl;
+                card.querySelector('.card-title').innerText = cardData.title;
+                card.querySelector('.card-date').innerText = cardData.date;
+                card.querySelector('.card-time').innerText = cardData.time;
+                card.querySelector('.card-location').innerText = cardData.location;
+                card.querySelector('.card-price').innerText = "R$ " + cardData.price;
+                card.querySelector('.card-text').innerText = cardData.description;
+                card.querySelector('.my-index-s3-btnVerEventosProximos').setAttribute('onclick', `window.open('${cardData.url}', '_blank')`);
+            }
+        });
+    }
+}
+
+// Certifique-se de que a seção HTML foi carregada antes de adicionar o listener
+fetch('../../../html/pages/index/section3.html')
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById('my-index-s3-importacao').innerHTML = data;
+
+        // Carrega os dados salvos no localStorage
+        loadFromLocalStorage();
+
+        document.getElementById('saveChangesBtnEventosProximos').addEventListener('click', function () {
+            const index = parseInt(document.getElementById('editIndexEventosProximos').value) - 1;
+            const cards = document.querySelectorAll('.my-index-s3-cardAlteracao');
+
+            if (index >= 0 && index < cards.length) {
+                const selectedCard = cards[index];
+
+                // Pega os valores do modal
+                const imageUrl = document.getElementById('editImageUrlEventosProximos').value;
+                const title = document.getElementById('editTitleEventosProximos').value;
+                const date = document.getElementById('editDateEventosProximos').value;
+                const time = document.getElementById('editTimeEventosProximos').value;
+                const location = document.getElementById('editLocationEventosProximos').value;
+                const price = document.getElementById('editPriceEventosProximos').value;
+                const description = document.getElementById('editDescriptionEventosProximos').value;
+                const url = document.getElementById('editUrlEventosProximos').value;
+
+                // Define os valores no card
+                selectedCard.querySelector('.my-index-s3-imagem').src = imageUrl;
+                selectedCard.querySelector('.card-title').innerText = title;
+                selectedCard.querySelector('.card-date').innerText = date;
+                selectedCard.querySelector('.card-time').innerText = time;
+                selectedCard.querySelector('.card-location').innerText = location;
+                selectedCard.querySelector('.card-price').innerText = "R$ " + price;
+                selectedCard.querySelector('.card-text').innerText = description;
+                selectedCard.querySelector('.my-index-s3-btnVerEventosProximos').setAttribute('onclick', `window.open('${url}', '_blank')`);
+
+                // Salva os dados no localStorage
+                const cardsData = Array.from(cards).map(card => ({
+                    imageUrl: card.querySelector('.my-index-s3-imagem').src,
+                    title: card.querySelector('.card-title').innerText,
+                    date: card.querySelector('.card-date').innerText,
+                    time: card.querySelector('.card-time').innerText,
+                    location: card.querySelector('.card-location').innerText,
+                    price: card.querySelector('.card-price').innerText.replace('R$ ', ''),
+                    description: card.querySelector('.card-text').innerText,
+                    url: card.querySelector('.my-index-s3-btnVerEventosProximos').getAttribute('onclick').match(/'(.*?)'/)[1]
+                }));
+                saveToLocalStorage(cardsData);
+
+                // Fecha o modal
+                const editModalInstance = bootstrap.Modal.getInstance(document.getElementById('editModalEventosProximos'));
+                if (editModalInstance) {
+                    editModalInstance.hide();
+                }
+            } else {
+                alert('Índice inválido. Por favor, escolha um índice de card válido.');
+            }
+        });
+    })
+    .catch(error => console.error('Erro ao carregar a página:', error));
