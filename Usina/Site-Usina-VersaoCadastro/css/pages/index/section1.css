@@ -1,0 +1,81 @@
+/* 
+Padronização
+Usar o prefixo: (my-index-s1-). 
+Colocar primeiro o prefixo (my-index-s1-), depois as classes do bootstrap 
+Isso ajuda na hora de diferenciar as classes criadas pela equipe de desenvolvimento e as classes já predefinidas do bootstrap
+*/
+
+
+
+/* Texto Destaque */
+.my-index-s1-textoDestaque {
+    color: var(--cor-verdeDestaque);
+    font-weight: 700;
+}
+
+
+
+/* Texto */
+.my-index-s1-texto {
+    color: var(--cor-cinza);
+}
+
+
+
+/* Btn Ver Mais */
+.my-index-s1-btnDoar {
+    background-color: var(--cor-verdeDestaque);
+    color: var(--cor-branco);
+    box-shadow: var(--sombra-preta);
+    padding: 12px;
+    margin-left: 20px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+.my-index-s1-btnDoar:hover {
+    color: var(--cor-branco);
+    opacity: 90%;
+}
+
+
+
+/*  Btn Doar */
+.my-index-s1-btnVerMais {
+    color: var(--cor-verdeDestaque);
+    box-shadow: var(--sombra-preta);
+    font-weight: 500;
+    padding: 10px;
+    border: 2px solid var(--cor-verdeDestaque);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.6s ease;
+}
+
+.my-index-s1-btnVerMais:hover {
+    color: var(--cor-branco);
+    background-color: var(--cor-verdeDestaque);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+
+/* Imagem */
+.my-index-s1-imagem {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.6s ease;
+}
+.my-index-s1-imagem:hover {
+    transform: scale(1.02);
+}
+@media (max-width: 768px) {
+    .my-index-s1-imagem {
+        margin-top: 30px;
+    }
+}
+
+
