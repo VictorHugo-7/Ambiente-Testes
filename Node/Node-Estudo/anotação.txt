@@ -1,0 +1,43 @@
+Front-End     --> Design. Parte visual da aplicação      
+.                 HTML, CSS e JavaScript.
+
+Back-End      --> Lógica. Parte não visual da aplicação. 
+.                 Uma ponte entre os dados da aplicação rumo ao banco de dados e vice-versa.
+.                 Uma "ponte" entre o front-end (o que o usuário vê) e o banco de dados (onde as informações são armazenadas).
+.                 Python, PHP, Java, e lida com servidores, APIs e bancos de dados.
+
+Full-Stack    --> Os dois juntos
+
+NodeJS        --> É uma tecnologia que permite rodar código JavaScript no back-end. É uma tecologia que faz o servidor, computador entender javascript 
+NPM           --> É um gerenciador de pacotes para o Node.js. 
+
+npm init            --> Cria um novo projeto NodeJS. Cria o arquivo package.json, que armazena as configurações e dependências do projeto.
+npm init -y         --> Cria o projeto automaticamente, sem pedir as configurações.
+npm install express --> Fornece ferramentas úteis sobre o servidor HTTP do Node, facilitando a criação de rotas, middlewares e o gerenciamento de requisições e respostas de forma eficiente.
+npm install nodemon --> Reinicia o servidor a cada vez que um arquivo é editado
+.                       "start": "nodemon index.js" | Colocar no package.json na parte dos scripts
+npm start           --> Rodar a aplicação | 
+
+prefixo: --save-dev --> Dependência que será instalada só no meu computador. Não vai ir para o servidor as dependência instaladas com o --save-dev
+
+axios e express
+Axios:
+    Cliente HTTP: Axios envia requisições para servidores e consome respostas de APIs externas.
+    Você pode usá-lo para fazer chamadas a APIs externas (de outras plataformas, bancos de dados, ou servidores).
+Express:
+    Servidor HTTP: Express lida com requisições recebidas de clientes e envia respostas de volta para esses clientes. Ele é um framework de backend que você usaria para construir um servidor.
+    Ele não faz requisições para APIs externas como o Axios, mas pode expor rotas e APIs para que o Axios ou outros clientes possam consumir.   
+
+Métodos HTTPS
+    GET...: Recupera dados de um servidor | Buscar informações de um usuário. 
+    POST..: Enviar dados ao servidor      | Enviar um formulário de cadastro.
+
+request e response
+    request  (req)      --> receber dados de uma requisição  | Objeto que contém informações sobre a requisição feita pelo cliente, como dados enviados pelo navegador.
+              req.body  --> Usado para acessar dados enviados no corpo da requisição (normalmente em métodos como POST ). Para acessá-lo, é necessário um middleware como express.json().
+
+    response (res)      --> enviar dados para uma requisição | Objeto que é usado para construir e enviar uma resposta ao cliente, podendo incluir status, cabeçalhos e dados. 
+             res.send() --> Envia uma resposta ao cliente com texto ou JSON. Só pode usar uma vez
+             res.json() --> Envia uma resposta ao cliente com JSON. 
+
+rota     --> caminhos ou URLs que o cliente pode acessar para interagir com o servidor
