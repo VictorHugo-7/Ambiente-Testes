@@ -1,3 +1,5 @@
+vh | 123
+
 mongodb+srv://cururu995:1234@cluster0.vlxky.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 npm install --legacy-peer-deps
 npm install nodemon 
