@@ -5,6 +5,7 @@ const usuarioEndpoint = "/signup"
 async function obterFilmes() {
     const URLCompleta = baseURL + filmesEndpoint
     const filmes = (await axios.get(URLCompleta)).data
+
     let tabela = document.querySelector('.filmes')
     let corpoTabela = tabela.getElementsByTagName('tbody')[0]
 
@@ -28,8 +29,7 @@ async function cadastrarFilme() {
     if (titulo && sinopse) {
         tituloInput.value = ""
         sinopseInput.value = ""
-        const filmes = (await axios.post(URLCompleta,
-            { titulo, sinopse })).data
+        const filmes = (await axios.post(URLCompleta, { titulo, sinopse })).data
         let tabela = document.querySelector('.filmes')
         let corpoTabela = tabela.getElementsByTagName('tbody')[0]
         corpoTabela.innerHTML = ""
@@ -105,7 +105,21 @@ const fazerLogin = async () => {
     // Se as variáveis usuarioLogin e passwordLogin não estiverm vazias, entra no if
     if (usuarioLogin && passwordLogin) {
 
-        // Enviar uma requisição do tipo POST do FrontEnd para o BackEnd, para o endpoint '/login' validandi se o usuário em quetão existe na base de dados
+        try {
+            const URLCompleta = baseURL + "/login"
+            const response = await axios.post(URLCompleta, { login: usuarioLogin, password: passwordLogin })
+
+            usuarioLoginInput.value = ""
+            passwordLoginInput.value = ""
+
+            exibirAlerta('.alert-modal-login', 'Login Efetuado com Sucesso!', ['show', 'alert-success'], ['d-none', 'alert-danger'])
+
+            const cadastrarFilmeButton = document.querySelector('#cadastrarFilmeButton')
+            cadastrarFilmeButton.disabled = false
+
+        } catch (error) {
+
+        }
 
     }
 
