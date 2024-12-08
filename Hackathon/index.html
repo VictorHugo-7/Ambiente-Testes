@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembretes de Saúde</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            display: flex;
+            align-items: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .bell-icon {
+            margin-right: 10px;
+            color: #2563eb;
+        }
+
+        .reminders-list,
+        .add-reminder-section {
+            margin-bottom: 20px;
+        }
+
+        .empty-state {
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .reminder-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f3f4f6;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .reminder-item .delete-btn {
+            color: #ef4444;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #addReminderBtn {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reminder-form {
+            background-color: #f3f4f6;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+
+        .day-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .day-button {
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .day-button.selected {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .day-button:not(.selected) {
+            background-color: #e5e7eb;
+            color: #4b5563;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-actions button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        #saveReminderBtn {
+            background-color: #22c55e;
+        }
+
+        #cancelReminderBtn {
+            background-color: #ef4444;
+        }
+
+        .exercise-details {
+            background-color: #dbeafe;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <h1><span class="bell-icon">🔔</span> Lembretes de Saúde</h1>
+
+        <div class="reminders-list">
+            <h2>Seus Lembretes</h2>
+            <div id="remindersList">
+                <p class="empty-state">Nenhum lembrete cadastrado</p>
+            </div>
+        </div>
+
+        <div class="add-reminder-section">
+            <button id="addReminderBtn">+ Adicionar Lembrete</button>
+
+            <div id="reminderForm" class="reminder-form hidden">
+                <h3>Novo Lembrete</h3>
+
+                <div class="form-group">
+                    <label>Horário</label>
+                    <input type="time" id="reminderTime">
+                </div>
+
+                <div class="form-group">
+                    <label>Exercício</label>
+                    <select id="exerciseSelect">
+                        <option value="">Selecione um exercício</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Dias da Semana</label>
+                    <div id="dayButtons" class="day-buttons"></div>
+                </div>
+
+                <div class="form-actions">
+                    <button id="saveReminderBtn">Salvar Lembrete</button>
+                    <button id="cancelReminderBtn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="exerciseDetails" class="exercise-details hidden">
+            <h3>Detalhes do Exercício Selecionado</h3>
+            <div id="exerciseInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        const EXERCISE_SUGGESTIONS = [
+            {
+                name: "Alongamento de Pescoço",
+                type: "Alongamento",
+                duration: "2-3 minutos",
+                description: "Gire lentamente a cabeça em círculos, incline para os lados e para frente suavemente."
+            },
+            {
+                name: "Respiração Profunda",
+                type: "Respiração",
+                duration: "5 minutos",
+                description: "Respiração diafragmática: inspire pelo nariz contando até 4, segure por 2, expire pela boca contando até 6."
+            },
+            {
+                name: "Alongamento de Ombros",
+                type: "Alongamento",
+                duration: "3 minutos",
+                description: "Eleve os ombros em direção às orelhas, gire para frente e para trás, solte lentamente."
+            },
+            {
+                name: "Meditação Guiada Curta",
+                type: "Mindfulness",
+                duration: "5 minutos",
+                description: "Sente-se confortavelmente, feche os olhos e foque na sua respiração, observando cada inspiração e expiração."
+            }
+        ];
+
+        const daysOfWeek = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+
+        const state = {
+            reminders: [],
+            newReminder: {
+                time: '',
+                exercise: null,
+                days: []
+            }
+        };
+
+        // DOM Elements
+        const addReminderBtn = document.getElementById('addReminderBtn');
+        const reminderForm = document.getElementById('reminderForm');
+        const saveReminderBtn = document.getElementById('saveReminderBtn');
+        const cancelReminderBtn = document.getElementById('cancelReminderBtn');
+        const remindersList = document.getElementById('remindersList');
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const dayButtonsContainer = document.getElementById('dayButtons');
+        const exerciseDetails = document.getElementById('exerciseDetails');
+        const exerciseInfo = document.getElementById('exerciseInfo');
+        const reminderTime = document.getElementById('reminderTime');
+
+        // Initialize Exercise Select Options
+        function initExerciseSelect() {
+            EXERCISE_SUGGESTIONS.forEach(exercise => {
+                const option = document.createElement('option');
+                option.value = exercise.name;
+                option.textContent = exercise.name;
+                exerciseSelect.appendChild(option);
+            });
+        }
+
+        // Initialize Day Buttons
+        function initDayButtons() {
+            daysOfWeek.forEach(day => {
+                const button = document.createElement('button');
+                button.textContent = day.substring(0, 3);
+                button.classList.add('day-button');
+                button.addEventListener('click', () => toggleDay(day));
+                dayButtonsContainer.appendChild(button);
+            });
+        }
+
+        // Toggle Day Selection
+        function toggleDay(day) {
+            const dayButton = Array.from(dayButtonsContainer.children)
+                .find(btn => btn.textContent === day.substring(0, 3));
+
+            if (state.newReminder.days.includes(day)) {
+                state.newReminder.days = state.newReminder.days.filter(d => d !== day);
+                dayButton.classList.remove('selected');
+            } else {
+                state.newReminder.days.push(day);
+                dayButton.classList.add('selected');
+            }
+            updateSaveButtonState();
+        }
+
+        // Update Exercise Details
+        function updateExerciseDetails() {
+            exerciseSelect.addEventListener('change', (e) => {
+                const selectedExercise = EXERCISE_SUGGESTIONS.find(ex => ex.name === e.target.value);
+                state.newReminder.exercise = selectedExercise;
+
+                if (selectedExercise) {
+                    exerciseDetails.classList.remove('hidden');
+                    exerciseInfo.innerHTML = `
+                <p><strong>Nome:</strong> ${selectedExercise.name}</p>
+                <p><strong>Tipo:</strong> ${selectedExercise.type}</p>
+                <p><strong>Duração:</strong> ${selectedExercise.duration}</p>
+                <p><strong>Descrição:</strong> ${selectedExercise.description}</p>
+            `;
+                } else {
+                    exerciseDetails.classList.add('hidden');
+                }
+            });
+        }
+
+        // Add Reminder
+        function addReminder() {
+            state.newReminder.time = reminderTime.value;
+
+            if (state.newReminder.time && state.newReminder.exercise && state.newReminder.days.length) {
+                const newReminder = {
+                    ...state.newReminder,
+                    id: Date.now()
+                };
+
+                state.reminders.push(newReminder);
+                renderReminders();
+                resetReminderForm();
+            }
+        }
+
+        // Render Reminders
+        function renderReminders() {
+            remindersList.innerHTML = state.reminders.length ? '' : '<p class="empty-state">Nenhum lembrete cadastrado</p>';
+
+            state.reminders.forEach(reminder => {
+                const reminderItem = document.createElement('div');
+                reminderItem.classList.add('reminder-item');
+                reminderItem.innerHTML = `
+            <div>
+                <p>${reminder.exercise.name}</p>
+                <p class="text-sm">${reminder.time} - ${reminder.days.join(', ')}</p>
+            </div>
+            <button class="delete-btn" data-id="${reminder.id}">✕</button>
+        `;
+                remindersList.appendChild(reminderItem);
+            });
+
+            // Add delete event listeners
+            remindersList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const id = parseInt(e.target.dataset.id);
+                    state.reminders = state.reminders.filter(r => r.id !== id);
+                    renderReminders();
+                }
+            });
+        }
+
+        // Reset Reminder Form
+        function resetReminderForm() {
+            reminderTime.value = '';
+            exerciseSelect.selectedIndex = 0;
+            state.newReminder = { time: '', exercise: null, days: [] };
+
+            Array.from(dayButtonsContainer.children).forEach(btn => {
+                btn.classList.remove('selected');
+            });
+
+            reminderForm.classList.add('hidden');
+            addReminderBtn.style.display = 'block';
+            exerciseDetails.classList.add('hidden');
+            updateSaveButtonState();
+        }
+
+        // Update Save Button State
+        function updateSaveButtonState() {
+            saveReminderBtn.disabled = !(
+                reminderTime.value &&
+                state.newReminder.exercise &&
+                state.newReminder.days.length
+            );
+        }
+
+        // Event Listeners
+        addReminderBtn.addEventListener('click', () => {
+            reminderForm.classList.remove('hidden');
+            addReminderBtn.style.display = 'none';
+        });
+
+        cancelReminderBtn.addEventListener('click', resetReminderForm);
+
+        saveReminderBtn.addEventListener('click', addReminder);
+
+        reminderTime.addEventListener('change', () => {
+            state.newReminder.time = reminderTime.value;
+            updateSaveButtonState();
+        });
+
+        // Initialize App
+        function initApp() {
+            initExerciseSelect();
+            initDayButtons();
+            updateExerciseDetails();
+            updateSaveButtonState();
+        }
+
+        initApp();
+
+    </script>
+</body>
+
+</html>
